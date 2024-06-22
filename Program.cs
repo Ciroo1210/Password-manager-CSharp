@@ -14,10 +14,10 @@ class Program
 
         if (!File.Exists(filePath))
         {
-            Console.WriteLine("No se encontró un archivo de cuentas. Por favor, cree una cuenta.");
-            Console.WriteLine("Ingrese su usuario:");
+            Console.WriteLine("No accounts file found. Please create an account.");
+            Console.WriteLine("Enter your username:");
             string nameUsu = Console.ReadLine();
-            Console.WriteLine("Ingrese su contraseña:");
+            Console.WriteLine("Enter your password:");
             string passwordUsu = ReadPassword();
 
             using (StreamWriter sw = File.AppendText(filePath))
@@ -25,22 +25,22 @@ class Program
                 sw.WriteLine(nameUsu);
                 sw.WriteLine(passwordUsu);
             }
-            Console.WriteLine("Cuenta creada con éxito.");
+            Console.WriteLine("Account created successfully.");
         }
 
         while (true)
         {
             Console.WriteLine("Login");
-            Console.WriteLine("Ingrese su usuario:");
+            Console.WriteLine("Enter your username:");
             string a = Console.ReadLine();
-            Console.WriteLine("Ingrese su contraseña:");
+            Console.WriteLine("Enter your password:");
             string b = ReadPassword();
 
             if (VerifyUser(filePath, a, b))
             {
                 while (true)
                 {
-                    Console.WriteLine("1. Agregar Contraseñas\n2. Buscar Contraseña\n3. Modificar Contraseña\n4. Salir");
+                    Console.WriteLine("1. Add Password\n2. Search Password\n3. Modify Password\n4. Exit");
                     string input = Console.ReadLine();
 
                     int c;
@@ -54,17 +54,17 @@ class Program
                             }
                             else if (c == 2)
                             {
-                                Console.WriteLine("Ingrese la descripción de la contraseña que desea buscar:");
+                                Console.WriteLine("Enter the description of the password you want to search:");
                                 string description = Console.ReadLine();
                                 string encryptedPassword = program.GetEncryptedPassword(description);
                                 if (encryptedPassword != null)
                                 {
                                     string result = program.SearchPassword(encryptedPassword);
-                                    Console.WriteLine("Contraseña desencriptada: " + result);
+                                    Console.WriteLine("Decrypted Password: " + result);
                                 }
                                 else
                                 {
-                                    Console.WriteLine("Descripción no encontrada.");
+                                    Console.WriteLine("Description not found.");
                                 }
                             }
                             else if (c == 3)
@@ -77,18 +77,18 @@ class Program
                             }
                             else
                             {
-                                Console.WriteLine("Ingreso inválido");
+                                Console.WriteLine("Invalid input");
                             }
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine($"Ocurrió un error: {ex.Message}");
+                            Console.WriteLine($"An error occurred: {ex.Message}");
                         }
                     }
                     else
                     {
-                        Console.WriteLine("a");
-                        Console.WriteLine("Por favor, ingrese un número válido.");
+                        Console.WriteLine("Invalid input");
+                        Console.WriteLine("Please enter a valid number.");
                         Console.Clear();
                     }
                 }
@@ -96,7 +96,7 @@ class Program
             }
             else
             {
-                Console.WriteLine("Usuario o contraseña incorrectos. Intente nuevamente.");
+                Console.WriteLine("Incorrect username or password. Please try again.");
             }
         }
     }
@@ -116,9 +116,9 @@ class Program
 
     public void AddPassword()
     {
-        Console.WriteLine("Ingrese la descripción:");
+        Console.WriteLine("Enter description:");
         string description = Console.ReadLine();
-        Console.WriteLine("Ingrese la contraseña:");
+        Console.WriteLine("Enter password:");
         string password = ReadPassword();
 
         byte[] data = UTF8Encoding.UTF8.GetBytes(password);
@@ -137,7 +137,7 @@ class Program
             }
         }
 
-        Console.WriteLine("Contraseña agregada y encriptada.");
+        Console.WriteLine("Password added and encrypted.");
     }
 
     public string SearchPassword(string encryptedPassword)
@@ -172,9 +172,9 @@ class Program
 
     public void ModifyPassword()
     {
-        Console.WriteLine("Ingrese la descripción de la contraseña a modificar:");
+        Console.WriteLine("Enter the description of the password to modify:");
         string description = Console.ReadLine();
-        Console.WriteLine("Ingrese la nueva contraseña:");
+        Console.WriteLine("Enter the new password:");
         string newPassword = ReadPassword();
 
         string[] lines = File.ReadAllLines(filePath2);
@@ -206,12 +206,12 @@ class Program
         if (found)
         {
             File.WriteAllLines(filePath2, lines);
-            Console.WriteLine("Contraseña modificada.");
+            Console.WriteLine("Password modified.");
             Console.Clear();
         }
         else
         {
-            Console.WriteLine("Descripción no encontrada.");
+            Console.WriteLine("Description not found.");
             Console.Clear();
         }
     }
